@@ -123,23 +123,28 @@ module Creek
                 row['cells'] = processed_cells
                 y << (include_meta_data ? row : processed_cells)
               elsif node.name == 'c' && node.node_type == opener
-                #puts "      Cell Opener Node #{i}:"
+                puts "      **** Cell Opener Node #{i}: #{node.attributes.inspect.to_s}"
                 cell_type      = node.attributes['t']
                 cell_style_idx = node.attributes['s']
                 cell           = node.attributes['r']
-                # puts "        type #{i}: #{cell_type}"
-                # puts "        style idx #{i}: #{cell_type}"
-                # puts "        cell #{i}: #{cell_type}"
-                # puts "........."
+                puts "        opener type #{i}: #{cell_type}"
+                puts "        opener style idx #{i}: #{cell_type}"
+                puts "        opener  cell #{i}: #{cell}"
+                puts "........."
               elsif %w[v t].include?(node.name) && node.node_type == opener
-                puts "         Weird cell is nil #{i}" if cell.nil?
+                if cell.nil?
+                  puts "         Weird cell is nil #{i}"
+                  puts "           Weird nil cell type #{i}:#{cell_type}"
+                  puts "           Weird nil cell style idx #{i}:#{cell_style_idx}"
+                end
+
                 unless cell.nil?
                   puts "         Before node read #{i}: #{cell.inspect.to_s}"
+                  puts "           cell type #{i}:#{cell_type}"
+                  puts "           cell style idx #{i}:#{cell_style_idx}"
                   node.read
-                  puts "         Cell Weird Opener #{i}: #{convert(node.value, cell_type, cell_style_idx)}"
-                  puts "         node value #{i}:#{node.value}"
-                  puts "         cell type #{i}:#{cell_type}"
-                  puts "         cell style idx #{i}:#{cell_style_idx}"
+                  puts "           Cell Weird Opener #{i}: #{convert(node.value, cell_type, cell_style_idx)}"
+                  puts "           node value #{i}:#{node.value}"
                   puts "........."
                   cells[cell] = convert(node.value, cell_type, cell_style_idx)
                 end
