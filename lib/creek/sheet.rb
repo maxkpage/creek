@@ -133,8 +133,8 @@ module Creek
                 puts "........."
               elsif %w[v t].include?(node.name) && node.node_type == opener
                 unless cell.nil?
-                  puts "       Cell Weird Opener #{i}: #{convert(node.value, cell_type, cell_style_idx)}"
                   node.read
+                  puts "       Cell Weird Opener #{i}: #{convert(node.value, cell_type, cell_style_idx)}"
                   puts "         node value #{i}:#{node.value}"
                   puts "         cell type #{i}:#{cell_type}"
                   puts "         cell style idx #{i}:#{cell_style_idx}"
