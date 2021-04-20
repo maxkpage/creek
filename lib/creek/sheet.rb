@@ -99,12 +99,14 @@ module Creek
             Nokogiri::XML::Reader.from_io(xml).each do |node|
               if node.name == 'row' && node.node_type == opener
                 puts "    Row Node Opener: #{node.inspect.to_s}"
+                puts "........."
                 row = node.attributes
                 row['cells'] = {}
                 cells = {}
                 y << (include_meta_data ? row : cells) if node.self_closing?
               elsif node.name == 'row' && node.node_type == closer
                 puts "    Row Node Closer: #{node.inspect.to_s}"
+                puts "........."
                 processed_cells = fill_in_empty_cells(cells, row['r'], cell, use_simple_rows_format)
                 @headers = processed_cells if row['r'] == HEADERS_ROW_NUMBER
 
@@ -120,12 +122,14 @@ module Creek
                 y << (include_meta_data ? row : processed_cells)
               elsif node.name == 'c' && node.node_type == opener
                 puts "      Cell Opener Node: #{node.inspect.to_s}"
+                puts "........."
                 cell_type      = node.attributes['t']
                 cell_style_idx = node.attributes['s']
                 cell           = node.attributes['r']
               elsif %w[v t].include?(node.name) && node.node_type == opener
                 unless cell.nil?
                   puts "       Cell Weird Opener: #{node.inspect.to_s}"
+                  puts "........."
                   node.read
                   cells[cell] = convert(node.value, cell_type, cell_style_idx)
                 end
