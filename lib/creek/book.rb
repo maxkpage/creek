@@ -39,7 +39,15 @@ module Creek
 
       rels_doc = @files.file.open "xl/_rels/workbook.xml.rels"
       rels = Nokogiri::XML::Document.parse(rels_doc).css("Relationship")
+      puts "*******"
+      puts "Relationships:"
+      puts rels.inspect.to_s
       @sheets = xml.css(cssPrefix+'sheet').map do |sheet|
+        puts "*******"
+        puts "*******"
+        puts sheet.inspect.to_s
+        puts "*******"
+        puts "*******"
         sheetfile = rels.find { |el| sheet.attr("r:id") == el.attr("Id") }.attr("Target")
         sheet = Sheet.new(
           self,
