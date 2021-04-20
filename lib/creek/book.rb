@@ -53,8 +53,7 @@ module Creek
         puts "*******"
         puts "Sheet before loop:"
         puts sheet.inspect.to_s
-        puts "*******"
-        puts "*******"
+        puts "////////"
         sheetfile = rels.find { |el| sheet.attr("r:id") == el.attr("Id") }.attr("Target")
         sheet = Sheet.new(
           self,
@@ -66,8 +65,7 @@ module Creek
           sheetfile
         )
         sheet.with_headers = with_headers
-        puts "*******"
-        puts "*******"
+        puts "////////"
         puts "Sheet after loop:"
         puts sheet.inspect.to_s
         puts "*******"
