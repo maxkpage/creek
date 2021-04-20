@@ -99,14 +99,15 @@ module Creek
             Nokogiri::XML::Reader.from_io(xml).each_with_index do |node, i|
               puts "Node check #{i}: #{cells.inspect.to_s}"
               if node.name == 'row' && node.node_type == opener
-                puts "    Row Node Opener: #{node.inspect.to_s}"
-                puts "........."
+                puts "    Row Node Opener #{i}:"
                 row = node.attributes
                 row['cells'] = {}
                 cells = {}
+                puts "      cleared cells..."
+                puts "........."
                 y << (include_meta_data ? row : cells) if node.self_closing?
               elsif node.name == 'row' && node.node_type == closer
-                puts "    Row Node Closer: #{node.inspect.to_s}"
+                puts "    Row Node Closer #{i}:"
                 puts "........."
                 processed_cells = fill_in_empty_cells(cells, row['r'], cell, use_simple_rows_format)
                 @headers = processed_cells if row['r'] == HEADERS_ROW_NUMBER
@@ -122,14 +123,17 @@ module Creek
                 row['cells'] = processed_cells
                 y << (include_meta_data ? row : processed_cells)
               elsif node.name == 'c' && node.node_type == opener
-                puts "      Cell Opener Node: #{node.inspect.to_s}"
-                puts "........."
+                puts "      Cell Opener Node #{i}:"
                 cell_type      = node.attributes['t']
                 cell_style_idx = node.attributes['s']
                 cell           = node.attributes['r']
+                puts "        type #{i}: #{cell_type}"
+                puts "        style idx #{i}: #{cell_type}"
+                puts "        cell #{i}: #{cell_type}"
+                puts "........."
               elsif %w[v t].include?(node.name) && node.node_type == opener
                 unless cell.nil?
-                  puts "       Cell Weird Opener: #{node.inspect.to_s}"
+                  puts "       Cell Weird Opener #{i}:"
                   puts "........."
                   node.read
                   cells[cell] = convert(node.value, cell_type, cell_style_idx)
