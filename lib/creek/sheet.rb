@@ -97,18 +97,18 @@ module Creek
           cell_style_idx = nil
           @book.files.file.open(path) do |xml|
             Nokogiri::XML::Reader.from_io(xml).each_with_index do |node, i|
-              puts "Node check #{i}: #{cells.inspect.to_s}"
+              puts "Node check #{i}: #{node.name} / Opener: #{node.node_type == opener} / Closer: #{node.node_type == opener}"
               if node.name == 'row' && node.node_type == opener
-                puts "    Row Node Opener #{i}:"
+                #puts "    Row Node Opener #{i}:"
                 row = node.attributes
                 row['cells'] = {}
                 cells = {}
-                puts "      cleared cells..."
-                puts "........."
+                # puts "      cleared cells..."
+                # puts "........."
                 y << (include_meta_data ? row : cells) if node.self_closing?
               elsif node.name == 'row' && node.node_type == closer
-                puts "    Row Node Closer #{i}:"
-                puts "........."
+                # puts "    Row Node Closer #{i}:"
+                # puts "........."
                 processed_cells = fill_in_empty_cells(cells, row['r'], cell, use_simple_rows_format)
                 @headers = processed_cells if row['r'] == HEADERS_ROW_NUMBER
 
@@ -123,14 +123,14 @@ module Creek
                 row['cells'] = processed_cells
                 y << (include_meta_data ? row : processed_cells)
               elsif node.name == 'c' && node.node_type == opener
-                puts "      Cell Opener Node #{i}:"
+                #puts "      Cell Opener Node #{i}:"
                 cell_type      = node.attributes['t']
                 cell_style_idx = node.attributes['s']
                 cell           = node.attributes['r']
-                puts "        type #{i}: #{cell_type}"
-                puts "        style idx #{i}: #{cell_type}"
-                puts "        cell #{i}: #{cell_type}"
-                puts "........."
+                # puts "        type #{i}: #{cell_type}"
+                # puts "        style idx #{i}: #{cell_type}"
+                # puts "        cell #{i}: #{cell_type}"
+                # puts "........."
               elsif %w[v t].include?(node.name) && node.node_type == opener
                 unless cell.nil?
                   node.read
