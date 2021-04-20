@@ -51,7 +51,7 @@ module Creek
       @sheets = xml.css(cssPrefix+'sheet').map do |sheet|
         puts "*******"
         puts "*******"
-        puts "Sheet loop:"
+        puts "Sheet before loop:"
         puts sheet.inspect.to_s
         puts "*******"
         puts "*******"
@@ -66,6 +66,12 @@ module Creek
           sheetfile
         )
         sheet.with_headers = with_headers
+        puts "*******"
+        puts "*******"
+        puts "Sheet after loop:"
+        puts sheet.inspect.to_s
+        puts "*******"
+        puts "*******"
         sheet
       end
     end
