@@ -39,12 +39,19 @@ module Creek
 
       rels_doc = @files.file.open "xl/_rels/workbook.xml.rels"
       rels = Nokogiri::XML::Document.parse(rels_doc).css("Relationship")
+      # Read this on how XLSX Parsing works:
+      # https://www.brendanlong.com/the-minimum-viable-xlsx-reader.html
       puts "*******"
       puts "Relationships:"
-      puts rels.inspect.to_s
+      rels.each do |r|
+        puts r.inspect.to_s
+        puts "......"
+      end 
+
       @sheets = xml.css(cssPrefix+'sheet').map do |sheet|
         puts "*******"
         puts "*******"
+        puts "Sheet loop:"
         puts sheet.inspect.to_s
         puts "*******"
         puts "*******"
