@@ -95,6 +95,7 @@ module Creek
           row, cells, cell = nil, {}, nil
           cell_type = nil
           cell_style_idx = nil
+
           @book.files.file.open(path) do |xml|
             puts "XML file object:"
             puts xml.inspect.to_s
@@ -110,7 +111,9 @@ module Creek
             end
             puts "......"
             puts "......"
+          end
 
+          @book.files.file.open(path) do |xml|
             Nokogiri::XML::Reader.from_io(xml).each_with_index do |node, i|
               puts "Node check #{i}: #{node.name} / Opener: #{node.node_type == opener} / Closer: #{node.node_type == opener}"
               if node.name == 'row' && node.node_type == opener
