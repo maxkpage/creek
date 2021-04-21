@@ -101,7 +101,7 @@ module Creek
             puts "......"
             puts "......"
             puts "Nokogiri look:"
-            doc = Nokogiri::XML(f)
+            doc = Nokogiri::XML(xml)
             puts doc.to_xml(:indent => 2)
             puts "......"
             puts "......"
