@@ -96,6 +96,16 @@ module Creek
           cell_type = nil
           cell_style_idx = nil
           @book.files.file.open(path) do |xml|
+            puts "XML file object:"
+            puts xml.inspect.to_s
+            puts "......"
+            puts "......"
+            puts "Nokogiri look:"
+            doc = Nokogiri::XML(f)
+            puts doc.to_xml(:indent => 2)
+            puts "......"
+            puts "......"
+
             Nokogiri::XML::Reader.from_io(xml).each_with_index do |node, i|
               puts "Node check #{i}: #{node.name} / Opener: #{node.node_type == opener} / Closer: #{node.node_type == opener}"
               if node.name == 'row' && node.node_type == opener
